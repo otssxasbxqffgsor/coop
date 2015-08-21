@@ -14,4 +14,29 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource\21.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\22.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\24.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\25.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\26.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\27.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Resource\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

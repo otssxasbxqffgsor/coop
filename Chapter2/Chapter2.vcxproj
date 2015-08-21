@@ -64,6 +64,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Resource\21.h" />
+    <ClInclude Include="Resource\22.h" />
+    <ClInclude Include="Resource\24.h" />
+    <ClInclude Include="Resource\25.h" />
+    <ClInclude Include="Resource\26.h" />
+    <ClInclude Include="Resource\27.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Resource\main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

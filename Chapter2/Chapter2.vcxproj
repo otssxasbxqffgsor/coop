@@ -64,6 +64,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="time.h" />
     <ClInclude Include="Resource\21.h" />
     <ClInclude Include="Resource\22.h" />
     <ClInclude Include="Resource\24.h" />

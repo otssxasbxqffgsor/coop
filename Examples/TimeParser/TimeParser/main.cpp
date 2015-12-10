@@ -25,10 +25,10 @@ int main()
 	char dateObject[35];
 	char dateObjectLocal[35];
 	
-	sprintf_s(dateObject, sizeof(dateObject), "%d-%d-%dT%d:%d:%d.%dZ", (1900 + lt->tm_year), lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, lt->tm_sec*10);
+	sprintf_s(dateObject, sizeof(dateObject), "%d-%d-%dT%d:%d:%d.000Z", (1900 + lt->tm_year), lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec);
 	printf(dateObject);
 	printf("\n");
-	sprintf_s(dateObject, sizeof(dateObject), "%d-%d-%dT%d:%d:%d.%dZ", (1900 + lt->tm_year), lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, lt->tm_sec * 10);
+	sprintf_s(dateObject, sizeof(dateObject), "%d-%d-%dT%d:%d:%d.000Z", (1900 + lt_local->tm_year), lt_local->tm_mon, lt_local->tm_mday, lt_local->tm_hour, lt_local->tm_min, lt_local->tm_sec);
 	printf(dateObjectLocal);
 
 

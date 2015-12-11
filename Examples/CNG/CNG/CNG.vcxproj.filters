@@ -18,19 +18,5 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CEncrypt.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CryptErr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CryptErr.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CEncrypt.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FA3D3302-B2B7-4A71-A54D-81ED93A9F95E}</ProjectGuid>
+    <ProjectGuid>{232765F8-895A-49F2-9CB7-DD037060FDEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Encryption101</RootNamespace>
   </PropertyGroup>
@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="T.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>

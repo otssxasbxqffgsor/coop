@@ -1,8 +1,18 @@
-// Encryption101.cpp : Defines the entry point for the console application.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+// PARTICULAR PURPOSE.
 //
+// Copyright (C) Microsoft. All rights reserved.
+/*++
+
+Abstract:
+Sample program for AES-CBC encryption using CNG
+
+--*/
+
 
 #include "stdafx.h"
-
 #include <windows.h>
 #include <stdio.h>
 #include <bcrypt.h>
@@ -13,6 +23,9 @@
 
 
 #define DATA_TO_ENCRYPT  "Test Data"
+
+
+#pragma comment(lib, "bcrypt.lib")
 
 
 const BYTE rgbPlaintext[] =
@@ -48,7 +61,9 @@ void PrintBytes(
 
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+void __cdecl wmain(
+	int                      argc,
+	__in_ecount(argc) LPWSTR *wargv)
 {
 
 	BCRYPT_ALG_HANDLE       hAesAlg = NULL;
@@ -67,20 +82,20 @@ int _tmain(int argc, _TCHAR* argv[])
 		pbBlob = NULL;
 
 	UNREFERENCED_PARAMETER(argc);
-	UNREFERENCED_PARAMETER(argv);
+	UNREFERENCED_PARAMETER(wargv);
 
 
 	// Open an algorithm handle.
-	if ( BCryptOpenAlgorithmProvider(
+	if (!NT_SUCCESS(status = BCryptOpenAlgorithmProvider(
 		&hAesAlg,
 		BCRYPT_AES_ALGORITHM,
 		NULL,
-		0))
+		0)))
 	{
-		printf("**** Error 0x%x returned by BCryptOpenAlgorithmProvider\n", status);
+		wprintf(L"**** Error 0x%x returned by BCryptOpenAlgorithmProvider\n", status);
 		goto Cleanup;
 	}
-	/*
+
 	// Calculate the size of the buffer to hold the KeyObject.
 	if (!NT_SUCCESS(status = BCryptGetProperty(
 		hAesAlg,
@@ -340,7 +355,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	wprintf(L"Success!\n");
-	*/
+
 
 Cleanup:
 
@@ -374,7 +389,5 @@ Cleanup:
 		HeapFree(GetProcessHeap(), 0, pbIV);
 	}
 
-	return 0;
 }
-
 

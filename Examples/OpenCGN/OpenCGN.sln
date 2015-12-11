@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CCrypto", "CCrypto\CCrypto.vcxproj", "{C99DB6C1-A5E7-44B0-8F41-391A29F9FC7B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCGN", "OpenCGN\OpenCGN.vcxproj", "{A23909FB-2722-4B32-86DA-FCEE09F96F17}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B2D57B7F-7110-432D-8A29-A0765D83078B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1C1AE47D-1041-48B7-A690-3F2DDD6378DB}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
@@ -18,10 +18,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C99DB6C1-A5E7-44B0-8F41-391A29F9FC7B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C99DB6C1-A5E7-44B0-8F41-391A29F9FC7B}.Debug|Win32.Build.0 = Debug|Win32
-		{C99DB6C1-A5E7-44B0-8F41-391A29F9FC7B}.Release|Win32.ActiveCfg = Release|Win32
-		{C99DB6C1-A5E7-44B0-8F41-391A29F9FC7B}.Release|Win32.Build.0 = Release|Win32
+		{A23909FB-2722-4B32-86DA-FCEE09F96F17}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A23909FB-2722-4B32-86DA-FCEE09F96F17}.Debug|Win32.Build.0 = Debug|Win32
+		{A23909FB-2722-4B32-86DA-FCEE09F96F17}.Release|Win32.ActiveCfg = Release|Win32
+		{A23909FB-2722-4B32-86DA-FCEE09F96F17}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

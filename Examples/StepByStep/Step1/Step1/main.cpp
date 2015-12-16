@@ -346,7 +346,7 @@ void __cdecl wmain(
 		int len = strlen(reinterpret_cast<const char*>(str1));
 		std::string str2(str1, str1 + len);
 		std::cout<<( str2);
-		wprintf(L"Expected decrypted text comparison failed.\n");
+		wprintf(L"Expected decrypted text comparison successed!.\n");
 	//	goto Cleanup;
 	}
 

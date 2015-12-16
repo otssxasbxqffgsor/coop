@@ -2,6 +2,7 @@
 #include <tchar.h>
 #include <windows.h>
 #include <wincrypt.h>
+
 #pragma comment(lib, "crypt32.lib")
 
 // DesKeyBlob:      A plaintext key BLOB stored in a byte array. The 
@@ -10,11 +11,12 @@
 //                      DWORD dwKeySize;
 //                      BYTE rgbKeyData [];
 
-BYTE DesKeyBlob[] = {
-	0x08, 0x02, 0x00, 0x00, 0x01, 0x66, 0x00, 0x00, // BLOB header 
-	0x08, 0x00, 0x00, 0x00,                     // key length, in bytes
-	0xf1, 0x0e, 0x25, 0x7c, 0x6b, 0xce, 0x0d, 0x34  // DES key with parity
-};
+BYTE DesKeyBlob[] = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
+//BYTE DesKeyBlob[] = {
+//	0x08, 0x02, 0x00, 0x00, 0x01, 0x66, 0x00, 0x00, // BLOB header 
+//	0x08, 0x00, 0x00, 0x00,                     // key length, in bytes
+//	0xf1, 0x0e, 0x25, 0x7c, 0x6b, 0xce, 0x0d, 0x34  // DES key with parity
+//};
 
 int main()
 {
@@ -28,7 +30,7 @@ int main()
 	//                  key as a PLAINTEXTKEYBLOB.
 	// dwBlobLen:       Length of the plaintext key.
 	// pbKeyBlob:       Pointer to the exported key.
-
+	unsigned long l = sizeof(DesKeyBlob);
 	HCRYPTPROV hProv = NULL;
 	HCRYPTKEY hKey = NULL;
 	DWORD dwBlobLen;

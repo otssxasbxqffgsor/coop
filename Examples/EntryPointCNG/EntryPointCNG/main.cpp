@@ -1,3 +1,9 @@
+
+/*
+#define DATA_TO_ENCRYPT  "businessPartnerId=12;sourceCompanyCode=12;sourceProduct=Sage300;fein=12;ts=2015-12-11T23:41:38.700Z;ec=50;companyName=;address1=;address2=;city=;state=;zip=;"
+#define DATA_KEY_ENCRYPTION "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0"
+*/
+
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
 // ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 // THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
@@ -10,14 +16,7 @@ Abstract:
 Sample program for AES-CBC encryption using CNG
 
 --*/
-/*
-They Kay at Sage100:
-private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
 
-Data  = businessPartnerId=5652;sourceCompanyCode=tEST;sourceProduct=Sage300;fein=test;ts=2015-12-14T22:22:11.484Z;ec=50;companyName=SAMLTD;address1=test;address2=test;city=test;state=AK;zip=;
-*/
-
-#include "stdafx.h"
 #include <windows.h>
 #include <stdio.h>
 #include <bcrypt.h>
@@ -28,9 +27,6 @@ Data  = businessPartnerId=5652;sourceCompanyCode=tEST;sourceProduct=Sage300;fein
 
 
 #define DATA_TO_ENCRYPT  "Test Data"
-
-
-#pragma comment(lib, "bcrypt.lib")
 
 
 const BYTE rgbPlaintext[] =
@@ -45,7 +41,7 @@ static const BYTE rgbIV[] =
 	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
 };
 
-static const char rgbAES128Key[] =
+static const BYTE rgbAES128Key[] =
 {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -70,7 +66,7 @@ void __cdecl wmain(
 	int                      argc,
 	__in_ecount(argc) LPWSTR *wargv)
 {
-	char output[16];
+
 	BCRYPT_ALG_HANDLE       hAesAlg = NULL;
 	BCRYPT_KEY_HANDLE       hKey = NULL;
 	NTSTATUS                status = STATUS_UNSUCCESSFUL;
@@ -353,10 +349,10 @@ void __cdecl wmain(
 	}
 
 
-	if (0 == memcmp(pbPlainText, (PBYTE)rgbPlaintext, sizeof(rgbPlaintext)))
+	if (0 != memcmp(pbPlainText, (PBYTE)rgbPlaintext, sizeof(rgbPlaintext)))
 	{
-		
 		wprintf(L"Expected decrypted text comparison failed.\n");
+		goto Cleanup;
 	}
 
 	wprintf(L"Success!\n");
@@ -395,4 +391,3 @@ Cleanup:
 	}
 
 }
-

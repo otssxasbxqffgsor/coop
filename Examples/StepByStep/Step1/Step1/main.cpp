@@ -1,43 +1,28 @@
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
-// Copyright (C) Microsoft. All rights reserved.
-/*++
 
-Abstract:
-Sample program for AES-CBC encryption using CNG
-
---*/
-/*
-They Kay at Sage100:
-private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
-
-Data  = businessPartnerId=5652;sourceCompanyCode=tEST;sourceProduct=Sage300;fein=test;ts=2015-12-14T22:22:11.484Z;ec=50;companyName=SAMLTD;address1=test;address2=test;city=test;state=AK;zip=;
-*/
-
-#include "stdafx.h"
 #include <windows.h>
+#include <string>
 #include <stdio.h>
+#include <iostream>
 #include <bcrypt.h>
-
+#include "prddfun.h"
 #define NT_SUCCESS(Status)          (((NTSTATUS)(Status)) >= 0)
 
 #define STATUS_UNSUCCESSFUL         ((NTSTATUS)0xC0000001L)
 
 
-#define DATA_TO_ENCRYPT  "Test Data"
-
+#define DATA_TO_ENCRYPT  "businessPartnerId=12;sourceCompanyCode=12;sourceProduct=Sage300;fein=12;ts=2015-12-11T23:41:38.700Z;ec=50;companyName=;address1=;address2=;city=;state=;zip=;"
+#define DATA_KEY_ENCRYPTION "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0"
 
 #pragma comment(lib, "bcrypt.lib")
 
 
-const BYTE rgbPlaintext[] =
-{
-	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-};
+const BYTE rgbPlaintext[] = "businessPartnerId=12;sourceCompanyCode=12;sourceProduct=Sage300;fein=12;ts=2015-12-11T23:41:38.700Z;ec=50;companyName=;address1=;address2=;city=;state=;zip=;";
+
+
+//{
+//	0x03, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+//	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+//};
 
 static const BYTE rgbIV[] =
 {
@@ -45,7 +30,7 @@ static const BYTE rgbIV[] =
 	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
 };
 
-static const char rgbAES128Key[] =
+static const BYTE rgbAES128Key[] =
 {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -70,9 +55,9 @@ void __cdecl wmain(
 	int                      argc,
 	__in_ecount(argc) LPWSTR *wargv)
 {
-	char output[16];
+
 	BCRYPT_ALG_HANDLE       hAesAlg = NULL;
-	BCRYPT_KEY_HANDLE       hKey = NULL;
+	BCRYPT_KEY_HANDLE       hKey = DATA_KEY_ENCRYPTION;
 	NTSTATUS                status = STATUS_UNSUCCESSFUL;
 	DWORD                   cbCipherText = 0,
 		cbPlainText = 0,
@@ -330,11 +315,11 @@ void __cdecl wmain(
 	}
 
 	pbPlainText = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbPlainText);
-	if (NULL == pbPlainText)
+	/*if (NULL == pbPlainText)
 	{
 		wprintf(L"**** memory allocation failed\n");
 		goto Cleanup;
-	}
+	}*/
 
 	if (!NT_SUCCESS(status = BCryptDecrypt(
 		hKey,
@@ -353,10 +338,16 @@ void __cdecl wmain(
 	}
 
 
+
+
 	if (0 == memcmp(pbPlainText, (PBYTE)rgbPlaintext, sizeof(rgbPlaintext)))
 	{
-		
+		const BYTE* str1 = pbPlainText;
+		int len = strlen(reinterpret_cast<const char*>(str1));
+		std::string str2(str1, str1 + len);
+		std::cout<<( str2);
 		wprintf(L"Expected decrypted text comparison failed.\n");
+	//	goto Cleanup;
 	}
 
 	wprintf(L"Success!\n");

@@ -4,3 +4,19 @@
 #include <wincrypt.h>
 #pragma comment(lib, "crypt32.lib")
 
+#ifndef _BASE64_H_
+#define _BASE64_H_
+
+#include <vector>
+#include <string>
+typedef unsigned char BYTE;
+
+class Base64
+{
+public:
+	static std::string encode(const std::vector<BYTE>& buf);
+	static std::string encode(const BYTE* buf, unsigned int bufLen);
+	static std::vector<BYTE> decode(std::string encoded_string);
+};
+
+#endif

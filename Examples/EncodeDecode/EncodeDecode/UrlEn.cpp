@@ -21,7 +21,7 @@ char *UrlEn::Encode(char *_strInput, int lenStr){
 		/*printf("%c",*_prtStr);*/
 		l--;
 		//All input characters that are not a-z, A-Z, 0-9, '-', '.', '_' or '~' are converted to their "URL escaped" version (%NN where NN is a two-digit hexadecimal number).
-		if ((*_prtStr >= 'a'&&*_prtStr <= 'z') || (*_prtStr >= 'A'&&*_prtStr <= 'Z') || (*_prtStr <= 'a'&&*_prtStr >= 'z') || (*_prtStr == '-') || (*_prtStr == '.') || (*_prtStr == '_') || (*_prtStr == '~'))
+		if (((int)(char*)_prtStr >= 97 && (int)*_prtStr <= 122) || ((int)*_prtStr >= 0 && (int)*_prtStr <= 9) || ((int)*_prtStr >= 65 && (int)*_prtStr <= 90) || ((int)*_prtStr == 45) || ((int)*_prtStr == 46) || ((int)*_prtStr == 95) || ((int)*_prtStr == 126))
 		{ 
 			//strcpy ((char*)_buffEncStr++,(char*)_prtStr++);
 			*_buffEncStr++ = *_prtStr++;
@@ -52,8 +52,8 @@ char *UrlEn::Encode(char *_strInput, int lenStr){
 				_buffEncStr++;
 				_prtStr++;
 			}
-			if (l>0)
-			*_buffEncStr = '\0'; // Add the NULL terminator to the end of the string so in print it actually is a null terminate
+			//if (l>0)
+			//*_buffEncStr = '\0'; // Add the NULL terminator to the end of the string so in print it actually is a null terminate
 		}
 	}
 	printf("%s", _ptrToBuffer);

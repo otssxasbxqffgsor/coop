@@ -1,9 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "stdio.h"
 #include "UrlEn.h"
 #include "stdlib.h"
-#include "string.h"
+
 
 
 
@@ -57,6 +56,7 @@ char *UrlEn::Encode(char *_strInput, int lenStr){
 		}
 	}
 	printf("%s", _ptrToBuffer);
+
 	return _ptrToBuffer;
 };
 

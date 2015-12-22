@@ -17,10 +17,8 @@
 #pragma comment(lib, "bcrypt.lib")
 
 
-const BYTE rgbPlaintext[] =
-//"TestMe";
-//"businessPartnerId=2;sourceCompanyCode=2;sourceProduct=Sage300;fein=2;ts=2015-12-16T23:07:42.710Z;ec=50;companyName=2;address1=2;address2=2;city=2;state=AK;zip=2;";
-"businessPartnerId=33;sourceCompanyCode=33;sourceProduct=Sage100;fein=33;ts=2015-12-18T02:30:25.701Z;ec=50;";
+const BYTE rgbPlaintext[] = "Test";
+	//"businessPartnerId=22;sourceCompanyCode=22;sourceProduct=Sage100;fein=22;ts=2015-12-19T01:52:50.983Z;ec=50;";
 //{
 //	0x03, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 //	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -34,7 +32,7 @@ static const BYTE rgbIV[] =
 
   BYTE rgbAES128Key[32];
 
-char key[] = "#e-rAwru7!?_acrum5g_sWeP6gEJU58";
+char key[] = "#e-rAwru7!?_Acrum5g_sWeP6gEJU58";
 
 //static const BYTE rgbAES128Key[32] = {'#','e','-','r','A','w','r','u','7','!',
 //'?','_','a','c','r','u','m','5','g','_','s','W','e','P','6','g','E','J','U','5','8',NULL};
@@ -177,6 +175,8 @@ void __cdecl wmain(
 		&cbData,
 		0)))
 	{
+		std::string encoded = Base64::encode(pbCipherText, cbCipherText);
+		std::cout << encoded;
 		wprintf(L"**** Error 0x%x returned by BCryptGetProperty\n", status);
 		goto Cleanup;
 	}
@@ -398,7 +398,7 @@ void __cdecl wmain(
 		/*char DEC2HEX[16 + 1] = "0123456789ABCDEF";
 
 		BYTE buf[] = "ABCD";*/
-		std::string encoded = Base64::encode(pbCipherText, cbCipherText);
+		std::string encoded = Base64::encode(pbCipherText, cbCipherText); // Using this code to transfer from BYTE to String! I could rewrite this later Dec 17th 2015: 
 		/*std::string NoEncoded = encoded;*/
 	//-->	UriEncode(encoded);
 	//	char *r = curl_escape(_prtCipher, cbCipherText);

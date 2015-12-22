@@ -6,6 +6,8 @@
 
 
 typedef struct CngEncryption{
-	char *Encrypt(char *_strInput, int strLen);
-	char *Dencrypt(char *_strInput, int strLen);
+	std::string Encrypt(char *_strInput, const int strLen);
+	std::string Dencrypt(char *_strInput, int strLen);
+	std::string encode(const BYTE* buf, unsigned int bufLen);
+	
 }Encypto;

@@ -16,11 +16,11 @@ namespace CreateSage100Token
 {
     public partial class Form1 : Form
     {
-        private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
-//        private  Byte [] URL_ENCRYPTION_CODE = {
-//    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-//    0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-//};
+       // private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU589";
+        private Byte[] URL_ENCRYPTION_CODE = {
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+    0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+};
         private const string URL_PATH_100 = "{0}Home/Sage100/?key={1}";
         private const string URL_PATH_300 = "{0}Home/Sage300/?key={1}";
 
@@ -62,14 +62,15 @@ namespace CreateSage100Token
             try
             {
                 string unencryptedString;
-                if (rdoErp100.Checked)
+               if (rdoErp100.Checked)
                     unencryptedString = string.Format("businessPartnerId={0};sourceCompanyCode={1};sourceProduct=Sage100;fein={2};ts={3};ec={4};", txtSageCustomerId.Text, txtCompanyCode.Text, txtFEIN.Text, DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"), employeeCount.ToString());
                 else
                     unencryptedString = string.Format("businessPartnerId={0};sourceCompanyCode={1};sourceProduct=Sage300;fein={2};ts={3};ec={4};companyName={5};address1={6};address2={7};city={8};state={9};zip={10};", txtSageCustomerId.Text, txtCompanyCode.Text, txtFEIN.Text, DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"), employeeCount.ToString(),
-                        txtCompanyName.Text, txtCompanyAddress1.Text, txtCompanyAddress2.Text, txtCompanyCity.Text, ((State)cboCompanyState.SelectedItem).Abbreviation, txtCompanyZip.Text);
+                      txtCompanyName.Text, txtCompanyAddress1.Text, txtCompanyAddress2.Text, txtCompanyCity.Text, ((State)cboCompanyState.SelectedItem).Abbreviation, txtCompanyZip.Text);
 
-          //    unencryptedString = "businessPartnerId=2;sourceCompanyCode=2;sourceProduct=Sage100;fein=2;ts=2015-12-17T23:02:16.454Z;ec=50;";
-              //  unencryptedString = "TestMe";
+               unencryptedString = "businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:59:06.812Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
+                 
+                 //  unencryptedString = "TestMe";
                 byte[] unencryptedBytes = Encoding.ASCII.GetBytes(unencryptedString);
                 byte[] cipherBytes = new byte[unencryptedBytes.Length];
 
@@ -102,14 +103,15 @@ namespace CreateSage100Token
                     //encryptor.TransformBlock(unencryptedBytes, 0, unencryptedBytes.Length, cipherBytes, 0);
                 }
 
-                string _encodedString = System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(cipherBytes));
+                string _encodedStringSage100 = System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(cipherBytes));
                 string urlPath = (rdoErp100.Checked ? URL_PATH_100 : URL_PATH_300);
-                string url = string.Format(urlPath, txtBaseUrl.Text + (txtBaseUrl.Text.EndsWith("/") ? "" : txtBaseUrl.Text + "/"), _encodedString);
+                string url = string.Format(urlPath, txtBaseUrl.Text + (txtBaseUrl.Text.EndsWith("/") ? "" : txtBaseUrl.Text + "/"), _encodedStringSage100);
 
                // String Encrypted by sage 100
                 bool IsDeCryptWasTrue = Decrypt(Convert.ToBase64String(cipherBytes), unencryptedString);
                // String Ecncypted by sage 300
-                bool IsCtWasTrue = Decrypt("sPIcTM8Lc21Kc/o+8Bqvwg==", unencryptedString);
+                string _EncyptionSage300C = "niKinRwkZO3fSGmL+fg24o9p/yVc37UqNGe/ty37oHlGsJBwFsbJXb//LxqZDcwTLssXjtb2JxfHQ2WXMS9nL20yZH4Y9t0PFDmipIr5D1bTodO4NTBX+9Z7OC2luSSTM6qGwegJe9F1nswajNyoeYubceNmyE3xO0JZa0hWAhqcw2NtvBPkylLXgOyr/OsGru6AFNGRe2GeFG2G1k66lAH1T3nqBxDF1uokhUuWZwLvl61GEkQ9fFI6EOKyZDK4";
+                bool IsCtWasTrue = Decrypt(_EncyptionSage300C, unencryptedString);
          
 
                //jk/zTy1EYcVXLGATQXzPbw==

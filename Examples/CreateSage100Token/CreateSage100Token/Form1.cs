@@ -16,8 +16,13 @@ namespace CreateSage100Token
 {
     public partial class Form1 : Form
     {
+<<<<<<< HEAD
         //private const string URL_ENCRYPTION_CODE = "UFBQUFBQUFBQUFBQ";
              private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
+=======
+        private const string URL_ENCRYPTION_CODE = "UFBQUFBQUFBQUFBQ";
+//      private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_Acrum5g_sWeP6gEJU58\0";
+>>>>>>> 11e42e053054faf20cc7de6adf82e15bdda8f013
 //      
 //        private  Byte [] URL_ENCRYPTION_CODE = {
 //    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -110,6 +115,7 @@ namespace CreateSage100Token
                // String Encrypted by sage 100
               //  bool IsDeCryptWasTrue = Decrypt(Convert.ToBase64String(cipherBytes), unencryptedString);
                // String Ecncypted by sage 300
+<<<<<<< HEAD
                 //string TestMe = "ODFRpyEqo4FwZTHckVVWtQ==";
                 //string Dec22ndV2 = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfIhRfPR6aka5oKgBJlrdL4mQ==";
                 //string Dec22ndV3 = "TkPPyGtAhVuZrgH0wVk5diPBQczRbMOSwhzz5bXAfsPPukO9dE4UQRKyjhReY6TbbGZT67Jcg8d2Hv4wTnpCYr0c7dANrvjlQNwDgYwsD/EzoMfYWMob8upNU071AZUGpoQCgAXzs5Q/ztxEeD24B09aN88j1GHGYCsVx+5YJCq0B41Xz5sUeodDNeh5VOvNOySeJppa8NxqY1OKwLaOarY5PyXrel+bol4YkQdwt68=";
@@ -130,6 +136,22 @@ Decrypt(EncoderProblem, "t");
 string _encodedStringSage100 = System.Web.HttpUtility.UrlEncode(unencryptedString);
 string urlPath = (rdoErp100.Checked ? URL_PATH_100 : URL_PATH_300);
 string url = string.Format(urlPath, txtBaseUrl.Text + (txtBaseUrl.Text.EndsWith("/") ? "" : txtBaseUrl.Text + "/"), _encodedStringSage100);
+=======
+                string TestMe = "ODFRpyEqo4FwZTHckVVWtQ==";
+                string Dec22ndV2 = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfIhRfPR6aka5oKgBJlrdL4mQ==";
+                string Dec22ndV3 = "TkPPyGtAhVuZrgH0wVk5diPBQczRbMOSwhzz5bXAfsPPukO9dE4UQRKyjhReY6TbbGZT67Jcg8d2Hv4wTnpCYr0c7dANrvjlQNwDgYwsD/EzoMfYWMob8upNU071AZUGpoQCgAXzs5Q/ztxEeD24B09aN88j1GHGYCsVx+5YJCq0B41Xz5sUeodDNeh5VOvNOySeJppa8NxqY1OKwLaOarY5PyXrel+bol4YkQdwt68=";
+                int l = Dec22ndV2.Length;
+                string Dec22nd =            "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
+                string _EncyptionSage300C = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
+                string Without16 = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
+                string EncoderProblem = "UFBQUFBQUFBQUFBQh/As4fTQhD1fvPGL0ro03B7mflHyklQFGHVu2O0fXLg=";
+
+                Decrypt(EncoderProblem, TestMe);
+               Decrypt(Dec22ndV2, TestMe);
+               Decrypt(Dec22ndV3, TestMe);
+               Decrypt(Without16, TestMe);
+         
+>>>>>>> 11e42e053054faf20cc7de6adf82e15bdda8f013
 
                //jk/zTy1EYcVXLGATQXzPbw==
               // U2FsdGVkX1/tzkUAk7mJDQe5bXO6KaQdWyiAnUqJRR4=

@@ -16,11 +16,13 @@ namespace CreateSage100Token
 {
     public partial class Form1 : Form
     {
-       // private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU589";
-        private Byte[] URL_ENCRYPTION_CODE = {
-    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-    0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-};
+        private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
+//      private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_Acrum5g_sWeP6gEJU589";
+//      
+//        private  Byte [] URL_ENCRYPTION_CODE = {
+//    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+//    0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+//};
         private const string URL_PATH_100 = "{0}Home/Sage100/?key={1}";
         private const string URL_PATH_300 = "{0}Home/Sage300/?key={1}";
 
@@ -62,14 +64,15 @@ namespace CreateSage100Token
             try
             {
                 string unencryptedString;
-               if (rdoErp100.Checked)
-                    unencryptedString = string.Format("businessPartnerId={0};sourceCompanyCode={1};sourceProduct=Sage100;fein={2};ts={3};ec={4};", txtSageCustomerId.Text, txtCompanyCode.Text, txtFEIN.Text, DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"), employeeCount.ToString());
-                else
-                    unencryptedString = string.Format("businessPartnerId={0};sourceCompanyCode={1};sourceProduct=Sage300;fein={2};ts={3};ec={4};companyName={5};address1={6};address2={7};city={8};state={9};zip={10};", txtSageCustomerId.Text, txtCompanyCode.Text, txtFEIN.Text, DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"), employeeCount.ToString(),
-                      txtCompanyName.Text, txtCompanyAddress1.Text, txtCompanyAddress2.Text, txtCompanyCity.Text, ((State)cboCompanyState.SelectedItem).Abbreviation, txtCompanyZip.Text);
+               //if (rdoErp100.Checked)
+               //     unencryptedString = string.Format("businessPartnerId={0};sourceCompanyCode={1};sourceProduct=Sage100;fein={2};ts={3};ec={4};", txtSageCustomerId.Text, txtCompanyCode.Text, txtFEIN.Text, DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"), employeeCount.ToString());
+               // else
+               //     unencryptedString = string.Format("businessPartnerId={0};sourceCompanyCode={1};sourceProduct=Sage300;fein={2};ts={3};ec={4};companyName={5};address1={6};address2={7};city={8};state={9};zip={10};", txtSageCustomerId.Text, txtCompanyCode.Text, txtFEIN.Text, DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"), employeeCount.ToString(),
+               //       txtCompanyName.Text, txtCompanyAddress1.Text, txtCompanyAddress2.Text, txtCompanyCity.Text, ((State)cboCompanyState.SelectedItem).Abbreviation, txtCompanyZip.Text);
 
-               unencryptedString = "businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:59:06.812Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
-                 
+               //unencryptedString = "businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:59:06.812Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
+                unencryptedString = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+
                  //  unencryptedString = "TestMe";
                 byte[] unencryptedBytes = Encoding.ASCII.GetBytes(unencryptedString);
                 byte[] cipherBytes = new byte[unencryptedBytes.Length];
@@ -108,10 +111,21 @@ namespace CreateSage100Token
                 string url = string.Format(urlPath, txtBaseUrl.Text + (txtBaseUrl.Text.EndsWith("/") ? "" : txtBaseUrl.Text + "/"), _encodedStringSage100);
 
                // String Encrypted by sage 100
-                bool IsDeCryptWasTrue = Decrypt(Convert.ToBase64String(cipherBytes), unencryptedString);
+              //  bool IsDeCryptWasTrue = Decrypt(Convert.ToBase64String(cipherBytes), unencryptedString);
                // String Ecncypted by sage 300
-                string _EncyptionSage300C = "niKinRwkZO3fSGmL+fg24o9p/yVc37UqNGe/ty37oHlGsJBwFsbJXb//LxqZDcwTLssXjtb2JxfHQ2WXMS9nL20yZH4Y9t0PFDmipIr5D1bTodO4NTBX+9Z7OC2luSSTM6qGwegJe9F1nswajNyoeYubceNmyE3xO0JZa0hWAhqcw2NtvBPkylLXgOyr/OsGru6AFNGRe2GeFG2G1k66lAH1T3nqBxDF1uokhUuWZwLvl61GEkQ9fFI6EOKyZDK4";
-                bool IsCtWasTrue = Decrypt(_EncyptionSage300C, unencryptedString);
+                string TestMe = "ODFRpyEqo4FwZTHckVVWtQ==";
+                string Dec22ndV2 = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfIhRfPR6aka5oKgBJlrdL4mQ==";
+                string Dec22ndV3 = "TkPPyGtAhVuZrgH0wVk5diPBQczRbMOSwhzz5bXAfsPPukO9dE4UQRKyjhReY6TbbGZT67Jcg8d2Hv4wTnpCYr0c7dANrvjlQNwDgYwsD/EzoMfYWMob8upNU071AZUGpoQCgAXzs5Q/ztxEeD24B09aN88j1GHGYCsVx+5YJCq0B41Xz5sUeodDNeh5VOvNOySeJppa8NxqY1OKwLaOarY5PyXrel+bol4YkQdwt68=";
+                int l = Dec22ndV2.Length;
+                string Dec22nd =            "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
+                string _EncyptionSage300C = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
+                string Without16 = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
+                string EncoderProblem = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
+
+                Decrypt(EncoderProblem, TestMe);
+               Decrypt(Dec22ndV2, TestMe);
+               Decrypt(Dec22ndV3, TestMe);
+               Decrypt(Without16, TestMe);
          
 
                //jk/zTy1EYcVXLGATQXzPbw==
@@ -146,10 +160,10 @@ namespace CreateSage100Token
                 byte[] cipherText = Convert.FromBase64String(_encryptedString);
                 using (AesManaged aesAlg = new AesManaged())
                 {
-                    aesAlg.Mode = CipherMode.ECB;
+                    aesAlg.Mode = CipherMode.CBC;
                     aesAlg.BlockSize = 128;
                     aesAlg.KeySize = 256;
-                    aesAlg.Padding = PaddingMode.PKCS7;
+                    aesAlg.Padding = PaddingMode.None;
                     aesAlg.Key = Encoding.ASCII.GetBytes(URL_ENCRYPTION_CODE);
                     //aesAlg.Key = URL_ENCRYPTION_CODE;
 

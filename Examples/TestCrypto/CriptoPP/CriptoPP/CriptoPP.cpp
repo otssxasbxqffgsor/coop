@@ -121,8 +121,18 @@ cout << "HEX FORM to cipher text :: " ;
 std::cout << result_string << '\n' ;
 cout << endl;
 cout << endl;
- /*********************************\
-\*********************************/
+ 
+// Decoding to 64//
+
+
+StringSource ss(result_string, sizeof(result_string), true,
+    new CryptoPP::Base64Encoder(
+        new StringSink(encoded)
+    ) // Base64Encoder
+); // StringSource
+
+cout << encoded << endl;
+
 
 
 CryptoPP::AES::Decryption aesDecryption((byte *)key.c_str(), CryptoPP::AES::DEFAULT_KEYLENGTH);

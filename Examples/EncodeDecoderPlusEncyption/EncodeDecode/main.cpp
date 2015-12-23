@@ -10,7 +10,9 @@
 int main(){
 	char key[100];
 	char *_finalUrl;
-	char  _CollectParUrl[] = "businessPartner;Id=22;sourceCompanyCode=22;sourceProduct=Sage100;fein=22;ts=2015-12-19T01:52:50.983Z;ec=50;";
+	//char  _CollectParUrl[] = "businessPartner;Id=22;sourceCompanyCode=22;sourceProduct=Sage100;fein=22;ts=2015-12-19T01:52:50.983Z;ec=50;";
+	char  _CollectParUrl[] = "TestMe";// "businessPartner;Id=22;sourceCompanyCode=22;sourceProduct=Sage100;fein=22;ts=2015-12-19T01:52:50.983Z;ec=50;";
+
 	char _testUrl[] = "0QRHBeZ4CKGpik2KnBpNlUAwZ9aL9BVUaTpKqJE/eCYTdYKw5NUVUhwiqvaZfHFkkVeQsi2Gh0Co5kqLSo4hSeS6MyOdvktn2rhhaloVd0vp5kGF18fayqJcB1FTZD/U48eqYlNx5HfBG4ilCS14XQ==";
 
 

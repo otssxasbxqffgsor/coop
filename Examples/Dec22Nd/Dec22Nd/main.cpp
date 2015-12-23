@@ -20,7 +20,7 @@
 
 const BYTE rgbPlaintext[] =
 //"TestMe";
-"................businessPartnerId=2;sourceCompanyCode=2;sourceProduct=Sage300;fein=2;ts=2015-12-16T23:07:42.710Z;ec=50;companyName=2;address1=2;address2=2;city=2;state=AK;zip=2;";
+"businessPartnerId=2;sourceCompanyCode=2;sourceProduct=Sage300;fein=2;ts=2015-12-16T23:07:42.710Z;ec=50;companyName=2;address1=2;address2=2;city=2;state=AK;zip=2;";
 //"businessPartnerId=33;sourceCompanyCode=33;sourceProduct=Sage100;fein=33;ts=2015-12-18T02:30:25.701Z;ec=50;";
 //{
 //	0x03, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -118,7 +118,7 @@ void __cdecl wmain(
 	}
 	rgbAES128Key[31] = '\0';
 
-
+	BYTE dsiezofKeyObject[32];
 	BCRYPT_ALG_HANDLE       hAesAlg = NULL;
 	BCRYPT_KEY_HANDLE       hKey = NULL;
 	NTSTATUS                status = STATUS_UNSUCCESSFUL;
@@ -129,13 +129,14 @@ void __cdecl wmain(
 		cbBlockLen = 0,
 		cbBlob = 0;
 	PBYTE                   pbCipherText = NULL,
-		pbPlainText = NULL,
-		pbKeyObject = NULL,
+		pbPlainText =  NULL,
+		pbKeyObject = dsiezofKeyObject,
 		pbIV = NULL,
 		pbBlob = NULL;
 
 	UNREFERENCED_PARAMETER(argc);
 	UNREFERENCED_PARAMETER(wargv);
+
 
 
 	// Open an algorithm handle.
@@ -148,6 +149,21 @@ void __cdecl wmain(
 		wprintf(L"**** Error 0x%x returned by BCryptOpenAlgorithmProvider\n", status);
 		goto Cleanup;
 	}
+
+	if (!NT_SUCCESS(status = BCryptSetProperty(
+		hAesAlg,
+		BCRYPT_CHAINING_MODE,
+		(PBYTE)BCRYPT_CHAIN_MODE_ECB,
+		sizeof(BCRYPT_CHAIN_MODE_ECB),
+		0)))
+	{
+		wprintf(L"**** Error 0x%x returned by BCryptSetProperty\n", status);
+		goto Cleanup;
+	}
+
+
+
+
 
 	// Calculate the size of the buffer to hold the KeyObject.
 	if (!NT_SUCCESS(status = BCryptGetProperty(
@@ -201,18 +217,7 @@ void __cdecl wmain(
 
 	memcpy(pbIV, rgbIV, cbBlockLen);
 
-	if (!NT_SUCCESS(status = BCryptSetProperty(
-		hAesAlg,
-		BCRYPT_CHAINING_MODE,
-		(PBYTE)BCRYPT_CHAIN_MODE_CBC,
-		sizeof(BCRYPT_CHAIN_MODE_CBC),
-		0)))
-	{
-		wprintf(L"**** Error 0x%x returned by BCryptSetProperty\n", status);
-		goto Cleanup;
-	}
-
-
+	
 
 	// Generate the key from supplied input key bytes.
 	if (!NT_SUCCESS(status = BCryptGenerateSymmetricKey(
@@ -275,26 +280,26 @@ void __cdecl wmain(
 
 	memcpy(pbPlainText, rgbPlaintext, strlen((char*)rgbPlaintext));
 
-	//
-	// Get the output buffer size.
-	//
-	if (!NT_SUCCESS(status = BCryptEncrypt(
-		hKey,
-		pbPlainText,
-		cbPlainText,
-		NULL,
-		pbIV,
-		cbBlockLen,
-		NULL,
-		0,
-		&cbCipherText,
-		BCRYPT_BLOCK_PADDING)))
-	{
-		wprintf(L"**** Error 0x%x returned by BCryptEncrypt\n", status);
-		goto Cleanup;
-	}
+	////
+	//// Get the output buffer size.
+	////
+	//if (!NT_SUCCESS(status = BCryptEncrypt(
+	//	hKey,
+	//	pbPlainText,
+	//	cbPlainText,
+	//	NULL,
+	//	pbIV,
+	//	cbBlockLen,
+	//	NULL,
+	//	0,
+	//	&cbCipherText,
+	//	BCRYPT_PAD_PKCS1)))
+	//{
+	//	wprintf(L"**** Error 0x%x returned by BCryptEncrypt\n", status);
+	//	goto Cleanup;
+	//}
 
-	pbCipherText = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbCipherText);
+	pbCipherText = (PBYTE)HeapAlloc(GetProcessHeap(), 0, 161);
 	if (NULL == pbCipherText)
 	{
 		wprintf(L"**** memory allocation failed\n");
@@ -313,12 +318,28 @@ void __cdecl wmain(
 		pbCipherText,
 		cbCipherText,
 		&cbData,
-		BCRYPT_BLOCK_PADDING)))
+		BCRYPT_PAD_PKCS1)))
 	{
 
 		wprintf(L"**** Error 0x%x returned by BCryptEncrypt\n", status);
 		goto Cleanup;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// Destroy the key and reimport from saved BLOB.
 	if (!NT_SUCCESS(status = BCryptDestroyKey(hKey)))

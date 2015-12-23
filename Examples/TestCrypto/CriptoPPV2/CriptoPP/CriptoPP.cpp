@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 	// Pretty print key
 	encoded.clear();
 	StringSource(key, sizeof(key), true,
-		new HexEncoder(
+		new Base64Encoder(
 			new StringSink(encoded)
 		) // HexEncoder
 	); // StringSource

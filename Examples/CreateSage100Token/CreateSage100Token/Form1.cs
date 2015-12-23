@@ -16,7 +16,7 @@ namespace CreateSage100Token
 {
     public partial class Form1 : Form
     {
-        private const string URL_ENCRYPTION_CODE = "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+        private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
 //      private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_Acrum5g_sWeP6gEJU589";
 //      
 //        private  Byte [] URL_ENCRYPTION_CODE = {
@@ -71,7 +71,7 @@ namespace CreateSage100Token
                //       txtCompanyName.Text, txtCompanyAddress1.Text, txtCompanyAddress2.Text, txtCompanyCity.Text, ((State)cboCompanyState.SelectedItem).Abbreviation, txtCompanyZip.Text);
 
                //unencryptedString = "businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:59:06.812Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
-               unencryptedString = "businessPartnerId=12;sourceCompanyCode=12;sourceProduct=Sage300;fein=12;ts=2015-12-11T23:41:38.700Z;ec=50;companyName=;address1=;address2=;city=;state=;zip=";
+                unencryptedString = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
 
                  //  unencryptedString = "TestMe";
                 byte[] unencryptedBytes = Encoding.ASCII.GetBytes(unencryptedString);
@@ -111,10 +111,21 @@ namespace CreateSage100Token
                 string url = string.Format(urlPath, txtBaseUrl.Text + (txtBaseUrl.Text.EndsWith("/") ? "" : txtBaseUrl.Text + "/"), _encodedStringSage100);
 
                // String Encrypted by sage 100
-                bool IsDeCryptWasTrue = Decrypt(Convert.ToBase64String(cipherBytes), unencryptedString);
+              //  bool IsDeCryptWasTrue = Decrypt(Convert.ToBase64String(cipherBytes), unencryptedString);
                // String Ecncypted by sage 300
-                string _EncyptionSage300C = "1iJE5Gu80PJ6GhOWMtLjh/LrMWi1ZEiC75dutEyV/7cEhpJYyKVx10agL7URUFh9pnaQF8FtrDyA7tdCaVVXIvWTwoL4pCuyJM2UXhQ/wWrVUBXEnEDdRfoRQJIN5sZK9XI6IQ7GcpjLsK0jihWCXNQStdmve1znSNVfUG6B/sb5OO23Igsrrh8WztnNLSqj9pZAA/aE3up3I22JR6buxw==";
-                bool IsCtWasTrue = Decrypt(_EncyptionSage300C, unencryptedString);
+                string TestMe = "ODFRpyEqo4FwZTHckVVWtQ==";
+                string Dec22ndV2 = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfIhRfPR6aka5oKgBJlrdL4mQ==";
+                string Dec22ndV3 = "TkPPyGtAhVuZrgH0wVk5diPBQczRbMOSwhzz5bXAfsPPukO9dE4UQRKyjhReY6TbbGZT67Jcg8d2Hv4wTnpCYr0c7dANrvjlQNwDgYwsD/EzoMfYWMob8upNU071AZUGpoQCgAXzs5Q/ztxEeD24B09aN88j1GHGYCsVx+5YJCq0B41Xz5sUeodDNeh5VOvNOySeJppa8NxqY1OKwLaOarY5PyXrel+bol4YkQdwt68=";
+                int l = Dec22ndV2.Length;
+                string Dec22nd =            "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
+                string _EncyptionSage300C = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
+                string Without16 = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
+                string EncoderProblem = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
+
+                Decrypt(EncoderProblem, TestMe);
+               Decrypt(Dec22ndV2, TestMe);
+               Decrypt(Dec22ndV3, TestMe);
+               Decrypt(Without16, TestMe);
          
 
                //jk/zTy1EYcVXLGATQXzPbw==
@@ -149,10 +160,10 @@ namespace CreateSage100Token
                 byte[] cipherText = Convert.FromBase64String(_encryptedString);
                 using (AesManaged aesAlg = new AesManaged())
                 {
-                    aesAlg.Mode = CipherMode.ECB;
+                    aesAlg.Mode = CipherMode.CBC;
                     aesAlg.BlockSize = 128;
                     aesAlg.KeySize = 256;
-                    aesAlg.Padding = PaddingMode.PKCS7;
+                    aesAlg.Padding = PaddingMode.None;
                     aesAlg.Key = Encoding.ASCII.GetBytes(URL_ENCRYPTION_CODE);
                     //aesAlg.Key = URL_ENCRYPTION_CODE;
 

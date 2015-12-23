@@ -21,10 +21,16 @@
     <ClCompile Include="EncryptEncode.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="prddopt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EncryptEncode.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prddfun.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

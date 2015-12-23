@@ -402,7 +402,7 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			NULL,
 			0,
 			&cbPlainText,
-			BCRYPT_BLOCK_PADDING)))
+			BCRYPT_PAD_PKCS1)))
 		{
 			wprintf(L"**** Error 0x%x returned by BCryptDecrypt\n", status);
 			goto Cleanup;
@@ -425,7 +425,7 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			pbPlainText,
 			cbPlainText,
 			&cbPlainText,
-			BCRYPT_BLOCK_PADDING)))
+			BCRYPT_PAD_PKCS1)))
 		{
 			/*char DEC2HEX[16 + 1] = "0123456789ABCDEF";
 

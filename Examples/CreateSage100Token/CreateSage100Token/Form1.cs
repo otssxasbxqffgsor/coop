@@ -16,8 +16,8 @@ namespace CreateSage100Token
 {
     public partial class Form1 : Form
     {
-        private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
-//      private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_Acrum5g_sWeP6gEJU589";
+        private const string URL_ENCRYPTION_CODE = "g9T+teCys8xOyocP";
+//      private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_Acrum5g_sWeP6gEJU58\0";
 //      
 //        private  Byte [] URL_ENCRYPTION_CODE = {
 //    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -120,7 +120,7 @@ namespace CreateSage100Token
                 string Dec22nd =            "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
                 string _EncyptionSage300C = "TkPPyGtAhVuZrgH0wVk5duaYLaIG8BEDepAGUnzdLkc8R28ps9au6FRtA1BTdHtRsC1c4E3fbC84Muxfe1CXwDaCtAGghz6gpN5tkd5Y3U1o2igPnSlA95EmuekucVfISFP/PohHuSDTiFAgpYnNMw==";
                 string Without16 = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
-                string EncoderProblem = "HGRTinUjIDOzb0l5V0Oz9JjK1u7Ia1jrSnaa+OnYRqK90DsdbEQk9ZwRM+t2V10l9YQ3BnjV3GQxnaIfbNq/Dm2ZONGvugAQBcmObwpPSxsT9kg3n0aHnVsVEZ5WJBsCpN0GSbfzVJRglv6SQVG9dWg/s1uBWUarYlndm8wDjr8RC/FcRHkXV4KfQJmdL4wY5IrIU5d6fXdjTIh5WbgF2phjGzvW3vTkjlyKTlCY87o2fM9zTykoKvAW2QRzkm+H";
+                string EncoderProblem = "bdXfnHp/g4S2lw/dBdAvHQ==";
 
                 Decrypt(EncoderProblem, TestMe);
                Decrypt(Dec22ndV2, TestMe);

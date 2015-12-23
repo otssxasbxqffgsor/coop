@@ -7,12 +7,16 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <wincrypt.h>
+#define NT_SUCCESS(Status)          (((NTSTATUS)(Status)) >= 0)
+
+#define STATUS_UNSUCCESSFUL         ((NTSTATUS)0xC0000001L)
 
 #pragma comment(lib, "crypt32.lib")
 #define _BASE64_H_
 #include <vector>
 #include <string>
 typedef unsigned char BYTE;
+
 
 
 static const BYTE from_base64[] = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
@@ -86,17 +90,12 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 		
 		//--------Memory Managament Use this block to see how much memory has been allcoated locally------//
 		int _lenOfBuf = 0;
-		const int LenBufferPrddFun = 250;
-	
-		BYTE rgbPlaintextTemp[500];
+		std::string encoded;
+
+
+		BYTE *rgbPlaintext = (BYTE*)calloc(strLen, sizeof(BYTE));
 		BYTE * _prtIntStr = (BYTE*)_strInput;
-		BYTE *_prtTorgbPlaintext = rgbPlaintextTemp;
-
-
-
-
-
-
+		BYTE *_prtTorgbPlaintext = rgbPlaintext;
 
 		BYTE rgbAES128Key[32];
 
@@ -118,24 +117,17 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 		while (*prtToKey != '\0'){
 			rgbAES128Key[i++] = *prtToKey++;
 		}
-		rgbAES128Key[31] = '\0';
+		rgbAES128Key[31] = '9';
 
 		//----------------------------------------------------------------------------------------------//
 		//------building a non-null-terminated buffer to hold the text encryption ---------------------// 
 		//----------------------------------------------------------------------------------------------//
-		typedef struct node {
-		
-			BYTE *prtCur;
-			BYTE *Prev;
-		}Node;
-
-
 		// Building a new Non terminate char array, cause tha tis the most importnatn parameter in the encryption, otherwise the complier will throw "a Given final block not properly padded" error 
 		// Ver good tool to evaluate the string convertions, use this to evaluate your input and output http://8gwifi.org/CipherFunctions.jsp
 		// This is an example of expected string 
 		//"businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:52:58.041Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
 
-		while (_lenOfBuf <= LenBufferPrddFun)
+		while (_lenOfBuf < strLen)
 		{
 
 			if (*_prtIntStr != '\0' &&
@@ -150,25 +142,17 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 
 				*(_prtTorgbPlaintext++) = *(_prtIntStr++);
 				_lenOfBuf++;
-				
+				std::cout << rgbPlaintext<<std::endl;
+				std::cout << strlen((char *)rgbPlaintext) << std::endl;;
+
 			}
+			else _lenOfBuf++; //std::cout << _lenOfBuf << std::endl;;
 			
 		}
-		 std::string(_prtTorgbPlaintext);
-		 std::trim_right(_prtTorgbPlaintext);
-		
-
-
-		
-			
-
-
-
-
 
 		BCRYPT_ALG_HANDLE       hAesAlg = NULL;
 		BCRYPT_KEY_HANDLE       hKey = NULL;
-
+		NTSTATUS                status = STATUS_UNSUCCESSFUL;
 		DWORD                   cbCipherText = 0,
 			cbPlainText = 0,
 			cbData = 0,
@@ -182,118 +166,149 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			pbBlob = NULL;
 
 
+
+
 		// Open an algorithm handle.
-		BCryptOpenAlgorithmProvider(
+		if (!NT_SUCCESS(status = BCryptOpenAlgorithmProvider(
 			&hAesAlg,
 			BCRYPT_AES_ALGORITHM,
 			NULL,
-			0);
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptOpenAlgorithmProvider\n", status);
+			goto Cleanup;
+		}
 
 		// Calculate the size of the buffer to hold the KeyObject.
-		BCryptGetProperty(
+		if (!NT_SUCCESS(status = BCryptGetProperty(
 			hAesAlg,
 			BCRYPT_OBJECT_LENGTH,
 			(PBYTE)&cbKeyObject,
 			sizeof(DWORD),
 			&cbData,
-			0);
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptGetProperty\n", status);
+			goto Cleanup;
+		}
 
 		// Allocate the key object on the heap.
 		pbKeyObject = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbKeyObject);
 		if (NULL == pbKeyObject)
 		{
 			wprintf(L"**** memory allocation failed\n");
-
+			goto Cleanup;
 		}
 
 		// Calculate the block length for the IV.
-		BCryptGetProperty(
+		if (!NT_SUCCESS(status = BCryptGetProperty(
 			hAesAlg,
 			BCRYPT_BLOCK_LENGTH,
 			(PBYTE)&cbBlockLen,
 			sizeof(DWORD),
 			&cbData,
-			0);
+			0)))
+		{
+				wprintf(L"**** Error 0x%x returned by BCryptGetProperty\n", status);
+			goto Cleanup;
+		}
 
-		/*	 Determine whether the cbBlockLen is not longer than the IV length.
-			if (cbBlockLen > sizeof(rgbIV))
-			{
+		// Determine whether the cbBlockLen is not longer than the IV length.
+	/*	if (cbBlockLen > sizeof(rgbIV))
+		{
 			wprintf(L"**** block length is longer than the provided IV length\n");
-
-			}*/
-
+			goto Cleanup;
+		}
+*/
 		// Allocate a buffer for the IV. The buffer is consumed during the 
 		// encrypt/decrypt process.
 		pbIV = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbBlockLen);
-		/*	if (NULL == pbIV)
-			{
+		if (NULL == pbIV)
+		{
 			wprintf(L"**** memory allocation failed\n");
-
-			}*/
+			goto Cleanup;
+		}
 
 		memcpy(pbIV, rgbIV, cbBlockLen);
 
-		BCryptSetProperty(
+		if (!NT_SUCCESS(status = BCryptSetProperty(
 			hAesAlg,
 			BCRYPT_CHAINING_MODE,
 			(PBYTE)BCRYPT_CHAIN_MODE_CBC,
 			sizeof(BCRYPT_CHAIN_MODE_CBC),
-			0);
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptSetProperty\n", status);
+			goto Cleanup;
+		}
 
 
 
 		// Generate the key from supplied input key bytes.
-		BCryptGenerateSymmetricKey(
+		if (!NT_SUCCESS(status = BCryptGenerateSymmetricKey(
 			hAesAlg,
 			&hKey,
 			pbKeyObject,
 			cbKeyObject,
 			(PBYTE)rgbAES128Key,
-			sizeof(rgbAES128Key),
-			0);
+			strlen((char*)rgbAES128Key),
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptGenerateSymmetricKey\n", status);
+			goto Cleanup;
+		}
 
 
 		// Save another copy of the key for later.
-		BCryptExportKey(
+		if (!NT_SUCCESS(status = BCryptExportKey(
 			hKey,
 			NULL,
 			BCRYPT_OPAQUE_KEY_BLOB,
 			NULL,
 			0,
 			&cbBlob,
-			0);
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptExportKey\n", status);
+			goto Cleanup;
+		}
+
 
 		// Allocate the buffer to hold the BLOB.
 		pbBlob = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbBlob);
-		/*if (NULL == pbBlob)
+		if (NULL == pbBlob)
 		{
-		wprintf(L"**** memory allocation failed\n");
-
+			wprintf(L"**** memory allocation failed\n");
+			goto Cleanup;
 		}
-		*/
-		BCryptExportKey(
+
+		if (!NT_SUCCESS(status = BCryptExportKey(
 			hKey,
 			NULL,
 			BCRYPT_OPAQUE_KEY_BLOB,
 			pbBlob,
 			cbBlob,
 			&cbBlob,
-			0);
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptExportKey\n", status);
+			goto Cleanup;
+		}
 
-		cbPlainText = sizeof(rgbPlaintext);
+		cbPlainText = strlen((char*)rgbPlaintext);
 		pbPlainText = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbPlainText);
-		/*	if (NULL == pbPlainText)
-			{
+		if (NULL == pbPlainText)
+		{
 			wprintf(L"**** memory allocation failed\n");
+			goto Cleanup;
+		}
 
-			}*/
-
-		memcpy(pbPlainText, rgbPlaintext, sizeof(rgbPlaintext));
+		memcpy(pbPlainText, rgbPlaintext, strlen((char*)rgbPlaintext));
 
 		//
 		// Get the output buffer size.
 		//
-		BCryptEncrypt(
+		if (!NT_SUCCESS(status = BCryptEncrypt(
 			hKey,
 			pbPlainText,
 			cbPlainText,
@@ -303,18 +318,22 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			NULL,
 			0,
 			&cbCipherText,
-			BCRYPT_BLOCK_PADDING);
+			BCRYPT_BLOCK_PADDING)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptEncrypt\n", status);
+			goto Cleanup;
+		}
 
 		pbCipherText = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbCipherText);
-		/*if (NULL == pbCipherText)
+		if (NULL == pbCipherText)
 		{
-		wprintf(L"**** memory allocation failed\n");
-
-		}*/
+			wprintf(L"**** memory allocation failed\n");
+			goto Cleanup;
+		}
 
 		// Use the key to encrypt the plaintext buffer.
 		// For block sized messages, block padding will add an extra block.
-		BCryptEncrypt(
+		if (!NT_SUCCESS(status = BCryptEncrypt(
 			hKey,
 			pbPlainText,
 			cbPlainText,
@@ -324,11 +343,19 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			pbCipherText,
 			cbCipherText,
 			&cbData,
-			BCRYPT_BLOCK_PADDING);
+			BCRYPT_BLOCK_PADDING)))
+		{
+
+			wprintf(L"**** Error 0x%x returned by BCryptEncrypt\n", status);
+			goto Cleanup;
+		}
 
 		// Destroy the key and reimport from saved BLOB.
-		BCryptDestroyKey(hKey);
-
+		if (!NT_SUCCESS(status = BCryptDestroyKey(hKey)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptDestroyKey\n", status);
+			goto Cleanup;
+		}
 		hKey = 0;
 
 		if (pbPlainText)
@@ -346,7 +373,7 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 		memcpy(pbIV, rgbIV, cbBlockLen);
 
 
-		BCryptImportKey(
+		if (!NT_SUCCESS(status = BCryptImportKey(
 			hAesAlg,
 			NULL,
 			BCRYPT_OPAQUE_KEY_BLOB,
@@ -355,13 +382,17 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			cbKeyObject,
 			pbBlob,
 			cbBlob,
-			0);
+			0)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptGenerateSymmetricKey\n", status);
+			goto Cleanup;
+		}
 
 
 		//
 		// Get the output buffer size.
 		//
-		BCryptDecrypt(
+		if (!NT_SUCCESS(status = BCryptDecrypt(
 			hKey,
 			pbCipherText,
 			cbCipherText,
@@ -371,7 +402,11 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			NULL,
 			0,
 			&cbPlainText,
-			BCRYPT_BLOCK_PADDING);
+			BCRYPT_BLOCK_PADDING)))
+		{
+			wprintf(L"**** Error 0x%x returned by BCryptDecrypt\n", status);
+			goto Cleanup;
+		}
 
 		pbPlainText = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbPlainText);
 		/*if (NULL == pbPlainText)
@@ -380,7 +415,7 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 		goto Cleanup;
 		}*/
 
-		BCryptDecrypt(
+		if (NT_SUCCESS(status = BCryptDecrypt(
 			hKey,
 			pbCipherText,
 			cbCipherText,
@@ -390,21 +425,87 @@ std::string Encypto::Encrypt(char *_strInput, const int strLen){
 			pbPlainText,
 			cbPlainText,
 			&cbPlainText,
-			BCRYPT_BLOCK_PADDING);
-
-		// Do decoding in main
-		std::string encoded = Encypto::encode(pbCipherText, cbCipherText);
-
-		if (memcmp(pbPlainText, (PBYTE)rgbPlaintext, sizeof(rgbPlaintext)))
+			BCRYPT_BLOCK_PADDING)))
 		{
-			const BYTE* str1 = pbPlainText;
-			int len = strlen(reinterpret_cast<const char*>(str1));
-			std::string str2(str1, str1 + len);
-			std::cout << (str2);
-			wprintf(L"Expected decrypted text comparison successed!.\n");
+			/*char DEC2HEX[16 + 1] = "0123456789ABCDEF";
+
+			BYTE buf[] = "ABCD";*/
+			encoded = Encypto::encode(pbCipherText, cbCipherText); // Using this code to transfer from BYTE to String! I could rewrite this later Dec 17th 2015: 
+			std::cout << encoded << std::endl;
+			/*std::string NoEncoded = encoded;*/
+			//-->	UriEncode(encoded);
+			//	char *r = curl_escape(_prtCipher, cbCipherText);
+
+			//unsigned char *_prtCipher = pbCipherText;
+			//int _lenCipher = cbCipherText;
+			//while (_lenCipher >= 0){
+			//	if (('a' < *_prtCipher &&*_prtCipher <= 'z') || 
+			//		('A' <= *_prtCipher && *_prtCipher <= 'Z') ||
+			//		('0' <= *_prtCipher && *_prtCipher <= '9')){
+			//	// Do nothing 
+			//	}
+			//	else {
+			//		*_prtCipher = '%';
+			//		*_prtCipher = _prtCipher[*_prtCipher >> 4];
+			//		*_prtCipher = _prtCipher[*_prtCipher & 0x0F];
+			//	}
+			//	_lenCipher--;
+			//
+			//}
+			//
+			// encoded = "QUJDRA=="
+			//std::vector<BYTE> decoded = Base64::decode(encoded);
+		//	wprintf(L"**** Error 0x%x returned by BCryptDecrypt\n", status);
+			//goto Cleanup;
 		}
+
+		//https://pgmorww11v.paigroup.corp/DDP.Web/Home/SageDirectDepositApplication?key=0QRHBeZ4CKGpik2KnBpNlUAwZ9aL9BVUaTpKqJE%2FeCYTdYKw5NUVUhwiqvaZfHFkUrsK4vOVxDwGI0XUQVQ1deS6MyOdvktn2rhhaloVd0uAtDd5mhhnI4qtvtTQg%2Bklqpc3q8qDo%2BvfCGwY%2FMv%2Bkt%2BBcNm0fDlmh6aunrVeXSile4P%2BCUybXgEowfkpqD4U6Ws5pd1N2PWQuMsuslxMGSYRg4dImTu4LSjIT5xGIfE%3D&sourceErp=Sage300
+
+
+		if (0 == memcmp(pbPlainText, (PBYTE)rgbPlaintext, strlen((char*)rgbPlaintext)))
+		{
+
+			return &encoded[0];
+			//	goto Cleanup;
+		}
+
+		wprintf(L"Success!\n");
+
+
+	Cleanup:
+
+		if (hAesAlg)
+		{
+			BCryptCloseAlgorithmProvider(hAesAlg, 0);
+		}
+
+		if (hKey)
+		{
+			BCryptDestroyKey(hKey);
+		}
+
+		if (pbCipherText)
+		{
+			HeapFree(GetProcessHeap(), 0, pbCipherText);
+		}
+
+		if (pbPlainText)
+		{
+			HeapFree(GetProcessHeap(), 0, pbPlainText);
+		}
+
+		if (pbKeyObject)
+		{
+			HeapFree(GetProcessHeap(), 0, pbKeyObject);
+		}
+
+		if (pbIV)
+		{
+			HeapFree(GetProcessHeap(), 0, pbIV);
+		}
+
 		//---------------//
-		return encoded;
+	
 	}
 	else return false;
 };

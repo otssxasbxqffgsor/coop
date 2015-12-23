@@ -1,0 +1,2 @@
+//https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage300/?key=businessPartnerId%3d3%3bsourceCompanyCode%3d3%3bsourceProduct%3dSage300%3bfein%3d3%3bts%3d2015-12-21T19%3a59%3a06.812Z%3bec%3d50%3bcompanyName%3d3%3baddress1%3d3%3baddress2%3d3%3bcity%3d3%3bstate%3dAK%3bzip%3d3%3b
+// string url = string.Format(urlPath, txtBaseUrl.Text + (txtBaseUrl.Text.EndsWith("/") ? "" : txtBaseUrl.Text + "/"), _encodedStringSage100);

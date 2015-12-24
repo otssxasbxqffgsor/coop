@@ -2,6 +2,7 @@
 
 // g++ -g3 -ggdb -O0 -DDEBUG -I/usr/include/cryptopp Driver.cpp -o Driver.exe -lcryptopp -lpthread
 // g++ -g -O2 -DNDEBUG -I/usr/include/cryptopp Driver.cpp -o Driver.exe -lcryptopp -lpthread
+#include <windows.h>
 #include <cstdio>
 #include <iostream>
 using std::cout;
@@ -86,10 +87,15 @@ using CryptoPP::Base64Encoder;
 #include "..\\cryptopp560\base64.h"
 using CryptoPP::SimpleProxyFilter;
 using CryptoPP::Base64Encoder;
+using CryptoPP::Base64Decoder;
+using CryptoPP::Base64URLEncoder;
+using CryptoPP::Base64URLDecoder;
 
-#include "..\\cryptopp560\basecode.h"
 
 
+
+
+#include "..\\cryptopp560\pch.h"
 
 int main(int argc, char* argv[])
 {
@@ -97,7 +103,7 @@ AutoSeededRandomPool prng;
 
 
 	// Filling with actual key
-	string plain = "ECB Mode Test";
+	string plain = "businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:59:06.812Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
 	string cipher, encoded, recovered;
 	unsigned char key[] = {35,101,45,114,65,119,114,117,55,33,63,95,65,99,114,117,109,
 53,103,95,115,87,101,80,54,103,69,74,85,53,56,0};
@@ -140,6 +146,22 @@ StringSource ss2( cipher, true,
 ); // StringSource
 cout << "cipher text: " << encoded << endl;
 
+/********************Base64URLEncoder*************\
+\*********************Base64Decoder************/
+string url;
+string urlEn =    encoded;
+StringSource ss(urlEn, true,
+    new Base64URLEncoder(
+        new StringSink(url)
+    ) // Base64URLDecoder
+); // StringSource
+url = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage300/?key="+url;
+
+/********************Base64URLEncoder*************\
+\*********************Base64Decoder************/
+
+
+
 /*********************************\
 \*********************************/
 // Decrypt
@@ -165,9 +187,6 @@ catch( CryptoPP::Exception& e )
     exit(1);
 }
 
-
-/*********************************\
-\*********************************/
 
 
 	return 0;

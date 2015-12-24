@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <cstdio>
 #include <iostream>
+
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -90,12 +91,36 @@ using CryptoPP::Base64Encoder;
 using CryptoPP::Base64Decoder;
 using CryptoPP::Base64URLEncoder;
 using CryptoPP::Base64URLDecoder;
-
-
-
-
-
 #include "..\\cryptopp560\pch.h"
+
+string UriEncode(const string & sSrc)
+{
+   const char DEC2HEX[16 + 1] = "0123456789ABCDEF";
+   const unsigned char * pSrc = (const unsigned char *)sSrc.c_str();
+   const int SRC_LEN = sSrc.length();
+   unsigned char * const pStart = new unsigned char[SRC_LEN * 3];
+   unsigned char * pEnd = pStart;
+   const unsigned char * const SRC_END = pSrc + SRC_LEN;
+
+   for (; pSrc < SRC_END; ++pSrc)
+   {
+      if (*pSrc) 
+         *pEnd++ = *pSrc;
+      else
+      {
+         // escape this char
+         *pEnd++ = '%';
+         *pEnd++ = DEC2HEX[*pSrc >> 4];
+         *pEnd++ = DEC2HEX[*pSrc & 0x0F];
+      }
+   }
+
+   string sResult((char *)pStart, (char *)pEnd);
+   delete [] pStart;
+   return sResult;
+}
+
+
 
 int main(int argc, char* argv[])
 {
@@ -104,10 +129,11 @@ AutoSeededRandomPool prng;
 
 	// Filling with actual key
 	//string plain = "businessPartnerId=3;sourceCompanyCode=3;sourceProduct=Sage300;fein=3;ts=2015-12-21T19:59:06.812Z;ec=50;companyName=3;address1=3;address2=3;city=3;state=AK;zip=3;";
-	string plain = "TestMe";
+	 string plain = "businessPartnerId=22;sourceCompanyCode=22;sourceProduct=Sage100;fein=22;ts=2015-12-24T00:36:35.284Z;ec=0;";	
+//string plain = "TestMeThisIsAGoodNews";
 string cipher, encoded, recovered;
 	unsigned char key[] = {35,101,45,114,65,119,114,117,55,33,63,95,65,99,114,117,109,
-53,103,95,115,87,101,80,54,103,69,74,85,53,56,56};
+53,103,95,115,87,101,80,54,103,69,74,85,53,56,0};
 
 	// Pretty print key
 	std::cout<<"The Key is->"<<key<< endl;;
@@ -158,12 +184,14 @@ StringSource ss(urlEn, true,
         new StringSink(url)
     ) // Base64URLDecoder
 ); // StringSource
-HttpUrl = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage300/?key="+url;
+ 
+
+HttpUrl = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage100/?key="+url;
 
 /********************Base64URLEncoder*************\
 \*********************Base64Decoder************/
-
-
+urlEn = UriEncode(encoded);
+HttpUrl = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage100/?key="+urlEn;
 
 /*********************************\
 \*********************************/

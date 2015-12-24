@@ -16,13 +16,13 @@ namespace CreateSage100Token
 {
     public partial class Form1 : Form
     {
-<<<<<<< HEAD
+
         //private const string URL_ENCRYPTION_CODE = "UFBQUFBQUFBQUFBQ";
              private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_acrum5g_sWeP6gEJU58\0";
-=======
+//
         private const string URL_ENCRYPTION_CODE = "UFBQUFBQUFBQUFBQ";
 //      private const string URL_ENCRYPTION_CODE = "#e-rAwru7!?_Acrum5g_sWeP6gEJU58\0";
->>>>>>> 11e42e053054faf20cc7de6adf82e15bdda8f013
+// 11e42e053054faf20cc7de6adf82e15bdda8f013
 //      
 //        private  Byte [] URL_ENCRYPTION_CODE = {
 //    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,

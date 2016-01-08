@@ -11,40 +11,40 @@ using std::exit;
 #include <string>
 using std::string;
 
-#include "..\cryptopp560\osrng.h"
+#include "osrng.h"
 using CryptoPP::AutoSeededRandomPool;
 
-#include "..\cryptopp560\cryptlib.h"
+#include "cryptlib.h"
 using CryptoPP::Exception;
 
 
-#include "..\cryptopp560\filters.h"
+#include "filters.h"
 using CryptoPP::StringSink;
 using CryptoPP::StringSource;
 using CryptoPP::StreamTransformationFilter;
 
-#include "..\cryptopp560\des.h"
+#include "des.h"
 using CryptoPP::DES_EDE2;
 using CryptoPP::ECB_Mode;
 
 
 
-#include "..\cryptopp560\secblock.h"
+#include "secblock.h"
 using CryptoPP::SecByteBlock;
 
 
-#include "..\cryptopp560\hex.h"
+#include "hex.h"
 using CryptoPP::HexEncoder;
 using CryptoPP::HexDecoder;
 
-#include "..\cryptopp560\aes.h"
+#include "aes.h"
 using CryptoPP::AES;
 
-#include "..\cryptopp560\base64.h"
+#include "base64.h"
 using CryptoPP::SimpleProxyFilter;
 using CryptoPP::Base64Encoder;
 
-#include "..\cryptopp560\basecode.h"
+#include "basecode.h"
 
 
 

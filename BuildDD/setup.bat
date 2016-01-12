@@ -1,7 +1,8 @@
+rem Setting up the build
 
 CALL C:\DD\pr\base\setproj UP
 CALL C:\DD\pr\base\SETUP32 UP
-CALL C:\DD\pr\base\cryptopp-lib-build-fetch jenkins-job
+CALL C:\DD\pr\base\cryptopp-lib-build-fetch set-jenkins-job
 CALL C:\DD\pr\base\cryptopp-lib-fetch jenkins-job
-CALL C:\DD\pr\base\build
-type build.err
+CALL start notepad++ C:\DD\pr\base\Source\Views\error
+

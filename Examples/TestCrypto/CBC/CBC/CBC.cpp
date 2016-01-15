@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+
+
 //:::::::: Standard C++ Libs ::://
 #include <windows.h>
 
@@ -20,7 +22,7 @@ using std::endl;
 #include "..\cryptopp560\osrng.h"
 using CryptoPP::AutoSeededRandomPool;
 #include "..\cryptopp560\cryptlib.h"
-using CryptoPP::Exception;
+//using CryptoPP::Exception;
 #include "..\cryptopp560\hex.h"
 using CryptoPP::HexEncoder;
 using CryptoPP::HexDecoder;
@@ -31,135 +33,113 @@ using CryptoPP::StreamTransformationFilter;
 #include "..\cryptopp560\des.h"
 using CryptoPP::DES_EDE2;
 #include "..\cryptopp560\modes.h"
-using CryptoPP::CBC_Mode;
+
 using CryptoPP::ECB_Mode;
 #include "..\cryptopp560\secblock.h"
 using CryptoPP::SecByteBlock;
 #include"..\cryptopp560\filters.h"
 #include "..\cryptopp560\aes.h"
 using CryptoPP::AES;
-#include "..\\cryptopp560\base64.h"
+#include "..\cryptopp560\base64.h"
 using CryptoPP::SimpleProxyFilter;
 using CryptoPP::Base64Encoder;
 using CryptoPP::Base64Decoder;
 using CryptoPP::Base64URLEncoder;
 using CryptoPP::Base64URLDecoder;
-#include "..\\cryptopp560\pch.h"
+#include "..\cryptopp560\pch.h"
 
-string UriEncode(const string & sSrc)
-{
-   const char DEC2HEX[16 + 1] = "0123456789ABCDEF";
-   const unsigned char * pSrc = (const unsigned char *)sSrc.c_str();
-   const int SRC_LEN = sSrc.length();
-   unsigned char * const pStart = new unsigned char[SRC_LEN * 3];
-   unsigned char * pEnd = pStart;
-   const unsigned char * const SRC_END = pSrc + SRC_LEN;
+string urlEncode(string str){
+    string new_str = "";
+    char c;
+    int ic;
+    const char* chars = str.c_str();
+    char bufHex[10];
+    int len = strlen(chars);
 
-   for (; pSrc < SRC_END; ++pSrc)
-   {
-      if (*pSrc) 
-         *pEnd++ = *pSrc;
-      else
-      {
-         // escape this char
-         *pEnd++ = '%';
-         *pEnd++ = DEC2HEX[*pSrc >> 4];
-         *pEnd++ = DEC2HEX[*pSrc & 0x0F];
-      }
-   }
-
-   string sResult((char *)pStart, (char *)pEnd);
-   delete [] pStart;
-   return sResult;
-}
-
+    for(int i=0;i<len;i++){
+        c = chars[i];
+        ic = c;
+        // uncomment this if you want to encode spaces with +
+        /*if (c==' ') new_str += '+';   
+        else */if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') new_str += c;
+        else {
+            sprintf(bufHex,"%X",c);
+            if(ic < 16) 
+                new_str += "%0"; 
+            else
+                new_str += "%";
+            new_str += bufHex;
+        }
+    }
+    return new_str;
+ }
 
 
-int main(int argc, char* argv[])
-{
-	AutoSeededRandomPool prng;
-	string plain = "businessPartnerId=22;sourceCompanyCode=22;sourceProduct=Sage100;fein=22;ts=2016-11-24T00:36:35.284Z;ec=0;";	
+
+
+
+
+
+int main(){
+
+
+		//char _unEncryptedUrl [_urlLen+1];
+	//strcpy_s(_unEncryptedUrl, _urlLen, _url);
+	
+	//AutoSeededRandomPool prng;
+	char _url[] = "businessPartnerId=1234;sourceCompanyCode=123;sourceProduct=Sage300;fein=123;ts=2016-01-15T00:21:52.252Z;ec=50;companyName=kian;address1=kian;address2=kian;city=kian;state=AK;zip=Kian;";	
+	int _urlLen = sizeof(_url);
+	string plain(_url,_urlLen);
+	//string plain = "businessPartnerId=123;sourceCompanyCode=123;sourceProduct=Sage300;fein=123;ts=2016-01-14T00:21:52.252Z;ec=50;companyName=kian;address1=kian;address2=kian;city=kian;state=AK;zip=Kian;";	
 	string cipher, encoded, recovered;
 	unsigned char key[] = {35,101,45,114,65,119,114,117,55,33,63,95,65,99,114,117,109,53,103,95,115,87,101,80,54,103,69,74,85,53,56,0};
-	string url;
-	string HttpUrl;
-	string urlEn;
+	
+	string Sage300prefix = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage300/?key=";
+    // Build Encyption 
+	
+	
 
-	//Debugg
-	// Pretty print key
-	cout<<"The Key is->"<<key<< endl;
-	cout << "plain text: " << plain << endl;
+//	byte key[AES::DEFAULT_KEYLENGTH];
+	//prng.GenerateBlock(key, sizeof(key));
+
+	//string plain = "ECB Mode Test";
+//	string cipher, encoded, recovered;
+
 	/*********************************\
 	\*********************************/
-    ECB_Mode< AES >::Encryption e;
-    e.SetKey( key, sizeof(key) );
 
-    StringSource ss1( plain, true, 
-        new StreamTransformationFilter( e,
-            new StringSink( cipher ),
-			StreamTransformationFilter::PKCS_PADDING
-        ) // StreamTransformationFilter      
-    ); // StringSource
+	// Pretty print key
+	encoded.clear();
+	/*StringSource(key, sizeof(key), true,
+		new HexEncoder(
+			new StringSink(encoded)
+		) // HexEncoder
+	); // StringSource
+	cout << "key: " << encoded << endl;
+*/
 
-		/*********************************\
-		\**********Base64Encoder**********/
-
+		ECB_Mode< AES >::Encryption e;
+		e.SetKey(key, sizeof(key));
+	
+	// Use encryption and Padding
+     StringSource ss1( plain, true, 
+         new StreamTransformationFilter( e,
+             new StringSink( cipher ),
+			 StreamTransformationFilter::PKCS_PADDING
+         ) // StreamTransformationFilter      
+     ); // StringSource
+	
+	 // Base64Eecoder	
 	StringSource ss2( cipher, true,
 		new Base64Encoder(
 			new StringSink( encoded )
-		) // HexEncoder // Base64Encoder
-	); // StringSource
-	
-	// Debugg
-	cout << "cipher text: " << encoded << endl;
-		/******Base64URLEncoder**********\
-		\********************************/
+    ) // HexEncoder // Base64Encoder
+	);
 
-		urlEn = encoded;
+Sage300prefix = Sage300prefix+urlEncode(encoded);
 
-	StringSource ss(urlEn, true,
-		 new Base64URLEncoder(
-		  new StringSink(url)
-		 ) // Base64URLDecoder
-		); // StringSource
- 
+return 0;
 
+};
 
-
-/********************Base64URLEncoder*************\
-\*********************Base64Decoder************/
-//HttpUrl = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage100/?key="+url;
-	//urlEn = UriEncode(encoded);
-	HttpUrl = "https://pgmorww11v.paigroup.corp/DDP.Web/Home/Sage100/?key="+UriEncode(encoded);
-
-/*********************************\
-\*********************************/
-// Decrypt
-/*
-try
-{
-    ECB_Mode< AES >::Decryption d;
-    // ECB Mode does not use an IV
-    d.SetKey( key, sizeof(key) );
-
-    // The StreamTransformationFilter removes
-    //  padding as required.
-    StringSource ss3( cipher, true, 
-        new StreamTransformationFilter( d,
-            new StringSink( recovered )
-        ) // StreamTransformationFilter
-    ); // StringSource
-
-    cout << "recovered text: " << recovered << endl;
-}
-catch( CryptoPP::Exception& e )
-{
-    cerr << e.what() << endl;
-    exit(1);
-}
-
-*/
-
-	return 0;
-}
 

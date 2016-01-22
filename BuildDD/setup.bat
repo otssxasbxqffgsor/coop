@@ -1,3 +1,4 @@
+REM HealthStatus: Line 18th corrected. Passed on Jan 20th. 
 setlocal
 rem Setting up the build
 rem MUST DO THIS IN THE DIRECTORY
@@ -14,7 +15,7 @@ goto :EOF
   CALL cryptopp-lib-build-fetch set-jenkins-job
   rem This isn't really needed, but the only harm is some extra time.
   CALL cryptopp-lib-build-fetch get
-  CALL CC:\DD\pr\base\build	
+  CALL C:\DD\pr\base\build	
   goto :EOF
 
 

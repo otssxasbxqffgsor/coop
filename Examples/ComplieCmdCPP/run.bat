@@ -1,0 +1,1 @@
+cl /MT hello.cpp  /link  "C:\DD\pr\base\cryptopp-lib\libs\cryptlib.lib" 
